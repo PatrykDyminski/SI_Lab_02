@@ -6,7 +6,9 @@ namespace SI_Lab_02
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
+            SudokuReader.ReadSudoku(0);
+            
         }
     }
 }
