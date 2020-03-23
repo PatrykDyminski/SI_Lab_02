@@ -8,7 +8,7 @@ namespace SI_Lab_02
     class JolkaReader
     {
 
-        public static void ReadPuzzle(int i)
+        public static char[][] ReadPuzzle(int i)
         {
             var lines = File.ReadAllLines("puzzle" + i);
 
@@ -18,7 +18,6 @@ namespace SI_Lab_02
 
             for (int j = 0; j < lines.Length; j++)
             {
-                Console.WriteLine(lines[j]);
 
                 tablicaCzarow[j] = new char[lines[j].Length];
                 tablicaCzarow[j] = lines[j].ToCharArray();
@@ -26,6 +25,7 @@ namespace SI_Lab_02
 
             PrintPuzzle(tablicaCzarow);
 
+            return tablicaCzarow;
         }
 
         public static string[] ReadWords(int i)
