@@ -8,7 +8,9 @@ namespace SI_Lab_02
         {
             
             SudokuReader.ReadSudoku(0);
-            
+
+            JolkaReader.ReadWords(0);
+            JolkaReader.ReadPuzzle(0);
         }
     }
 }
