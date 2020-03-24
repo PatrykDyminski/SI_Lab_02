@@ -14,7 +14,7 @@ namespace SI_Lab_02
 
             char[][] tablicaCzarow = new char[lines.Length][];
 
-            Console.WriteLine(lines.Length);
+            //Console.WriteLine(lines.Length);
 
             for (int j = 0; j < lines.Length; j++)
             {

@@ -12,6 +12,9 @@ namespace SI_Lab_02
             CheckBox(sudoku, number, row - row % 3, column - column % 3) && sudoku[row][column] == 0;
         }
 
+
+        // dodać sprawdzanie czy proponowana litera  jest z zakresu 1-9 !!!
+
         public static bool CheckRow(int[][] sudoku, int number, int row)
         {
             for(int i = 0; i < 9; i++)

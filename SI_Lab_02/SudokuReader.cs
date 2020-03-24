@@ -9,7 +9,7 @@ namespace SI_Lab_02
     class SudokuReader
     {
 
-        public static void ReadSudoku(int number)
+        public static int[][] ReadSudoku(int number)
         {
             var read = File.ReadAllLines("Sudoku.csv").Select(a => a.Split(';'));
             var lines = read.ToArray();
@@ -17,6 +17,7 @@ namespace SI_Lab_02
             var parsed = ParseSudoku(sudoku);
 
             PrintSudoku(parsed);
+            return parsed;
         }
 
         public static int[][] ParseSudoku(string input)
