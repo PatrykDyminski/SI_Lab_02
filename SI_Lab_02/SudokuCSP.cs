@@ -6,6 +6,87 @@ namespace SI_Lab_02
 {
     class SudokuCSP
     {
+
+        public static void SolveSudoku(int[][] sudoku)
+        {
+
+            int prevRow = 0;
+            int prevColumn = 0;
+
+            (int row, int column) = PickNextValue(sudoku);
+
+            if(row == -1)
+            {
+                Console.WriteLine("Znaleziono rozwiązanie");
+                return;
+            }
+            else
+            {
+                int currentPick = -1;
+
+                currentPick = PickNextPick(currentPick);
+
+                if(currentPick == -100)
+                {
+
+
+
+                }
+
+
+
+
+            }
+
+        }
+
+        private static int PickNextPick(int currentPick)
+        {
+            return (currentPick == 9) ? -100 : currentPick++;
+        }
+
+        private static (int row, int column) PickNextValue(int[][] sudoku)
+        {
+            bool ok = false;
+
+            int row = -1;
+            int column = -1;
+
+
+            for(int i = 0; i< 9; i++)
+            {
+                for(int j = 0; j < 9; j++)
+                {
+                    if(sudoku[i][j] == 0)
+                    {
+                        return (i, j);
+                    }
+                }
+            }
+
+            if(row == -1)
+            {
+                return (row, column);
+            }
+
+
+
+            //while (!ok)
+            //{
+            //    Random rnd = new Random();
+            //    row = rnd.Next(0, 9);
+            //    column = rnd.Next(0, 9);
+
+            //    if(sudoku[row][column] == 0)
+            //    {
+            //        ok = true;
+            //    }
+            //}
+
+            return (row, column);
+
+        }
+
         public static bool CheckConstraint(int[][] sudoku, int number, int row, int column)
         {
             return
