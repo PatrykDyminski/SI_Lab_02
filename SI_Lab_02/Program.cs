@@ -15,8 +15,11 @@ namespace SI_Lab_02
             //JolkaReader.ReadWords(0);
             var puzzle = JolkaReader.ReadPuzzle(1);
 
-            puzzle[0][2] = 'c';
-            var result = JolkaCSP.CheckConstraint(puzzle, "ceeee", 0, 2, VERTICAL);
+            puzzle[0][2] = 'b';
+            puzzle[0][3] = 'e';
+            puzzle[0][4] = 'e';
+
+            var result = JolkaCSP.CheckConstraint(puzzle, "bee", 0, 2, HORIZONTAL);
 
 
 

@@ -8,12 +8,19 @@ namespace SI_Lab_02
     {
         public static bool CheckConstraint(int[][] sudoku, int number, int row, int column)
         {
-            return CheckRow(sudoku, number, row) && CheckColumn(sudoku, number, column) &&
-            CheckBox(sudoku, number, row - row % 3, column - column % 3) && sudoku[row][column] == 0;
+            return
+            CheckNumberValue(number) &&
+            CheckRow(sudoku, number, row) && 
+            CheckColumn(sudoku, number, column) &&
+            CheckBox(sudoku, number, row - row % 3, column - column % 3) && 
+            sudoku[row][column] == 0;
         }
 
 
-        // dodać sprawdzanie czy proponowana litera  jest z zakresu 1-9 !!!
+        public static bool CheckNumberValue(int number)
+        {
+            return (number <= 9 && number > 0) ? true : false;
+        }
 
         public static bool CheckRow(int[][] sudoku, int number, int row)
         {

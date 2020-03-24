@@ -14,18 +14,66 @@ namespace SI_Lab_02
         {
             if (CheckLength(puzzle, word, startRow, startColumn, direction))
             {
-                if (CheckLetters(puzzle, word, startRow, startColumn, direction))
+                if (CheckFill(puzzle, word, startRow, startColumn, direction))
                 {
-                    return true;
+                    if (CheckLetters(puzzle, word, startRow, startColumn, direction))
+                    {
+                        return true;
+                    }
+                    else Console.WriteLine("Litery się nie zgadzają"); return false;
                 }
-                else return false;
+                else Console.WriteLine("Wypełnienie się nie zgadza"); return false;  
             }
-            else return false;
+            else Console.WriteLine("Wolna przestrzeń się nie zgadza"); return false;
         }
 
+        public static bool CheckFill(char[][] puzzle, string word, int startRow, int startColumn, int direction)
+        {
+            if (direction == VERTICAL)
+            {
+                if (startRow != 0)
+                {
+                    if (!puzzle[startRow - 1][startColumn].Equals('#'))
+                    {
+                        return false;
+                    }
+                }
 
-        // dodać sprawdzanie czy proponowany wyraz zapełnia całą wolną przestrzeń
+                if (startRow + word.Length != puzzle.Length)
+                {
+                    if (!puzzle[startRow + word.Length][startColumn].Equals('#'))
+                    {
+                        return false;
+                    }
+                }
+            }
+            else if (direction == HORIZONTAL)
+            {
+                if (startColumn != 0)
+                {
+                    if (!puzzle[startRow][startColumn-1].Equals('#'))
+                    {
+                        return false;
+                    }
+                }
 
+                if (startColumn + word.Length != puzzle[0].Length)
+                {
+                    if (!puzzle[startRow][startColumn + word.Length].Equals('#'))
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("No coś namieszałeś!");
+                return false;
+            }
+
+            return true;
+
+        }
 
         public static bool CheckLength(char[][] puzzle, string word, int startRow, int startColumn, int direction)
         {
@@ -42,7 +90,7 @@ namespace SI_Lab_02
                 //    return true;
                 //else return false;
 
-                return (puzzle.Length - startRow > word.Length) ? true : false;
+                return (puzzle.Length - startRow >= word.Length) ? true : false;
 
             }
             else if(direction == HORIZONTAL)
@@ -51,7 +99,7 @@ namespace SI_Lab_02
                 //    return true;
                 //else return false;
 
-                return (puzzle[0].Length - startColumn > word.Length) ? true : false;
+                return (puzzle[0].Length - startColumn >= word.Length) ? true : false;
             }
             else
             {
