@@ -7,7 +7,7 @@ namespace SI_Lab_02
     class SudokuCSP
     {
 
-        public static void SolveSudoku(int[][] sudoku)
+        public static void SolveSudokuTest(int[][] sudoku)
         {
 
             int prevRow = 0;
@@ -39,6 +39,50 @@ namespace SI_Lab_02
             }
 
         }
+
+        public static List<int[][]> SolveSudoku(int[][] sudoku)
+        {
+
+            List<int[][]> solutions = new List<int[][]>();
+            int counter = 0;
+
+            SolveSudokuInner(sudoku);
+
+            bool SolveSudokuInner(int[][] sudoku)
+            {
+                (int row, int col) = PickNextValue(sudoku);
+
+                if (row == -1)
+                {
+                    solutions.Add(sudoku);
+                    counter++;
+                    //SudokuReader.PrintSudoku(sudoku);
+                    return true; // udane 
+                }
+
+
+                for (int num = 1; num <= 9; num++)
+                {
+                    if (CheckConstraint(sudoku, num, row, col))
+                    {
+                        sudoku[row][col] = num;
+                        if (SolveSudokuInner(sudoku))
+                            return true;
+
+                        sudoku[row][col] = 0;
+                    }
+                }
+                return false;
+            }
+
+            Console.WriteLine(counter);
+
+            return solutions;
+        }
+
+
+
+        
 
         private static int PickNextPick(int currentPick)
         {

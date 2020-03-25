@@ -10,22 +10,39 @@ namespace SI_Lab_02
         static void Main(string[] args)
         {
             
-            //var sudoku = SudokuReader.ReadSudoku(0);
+            var sudoku = SudokuReader.ReadSudoku(41);
 
             //JolkaReader.ReadWords(0);
-            var puzzle = JolkaReader.ReadPuzzle(1);
+            //var puzzle = JolkaReader.ReadPuzzle(1);
 
-            puzzle[0][2] = 'b';
-            puzzle[0][3] = 'e';
-            puzzle[0][4] = 'e';
+            //puzzle[0][2] = 'b';
+            //puzzle[0][3] = 'e';
+            //puzzle[0][4] = 'e';
 
-            var result = JolkaCSP.CheckConstraint(puzzle, "bee", 0, 2, HORIZONTAL);
-
-
-
+            //var result = JolkaCSP.CheckConstraint(puzzle, "bee", 0, 2, HORIZONTAL);
 
             //var result = SudokuCSP.CheckConstraint(sudoku, 9, 0, 0);
-            Console.WriteLine(result);
+            //Console.WriteLine(result);
+
+            //if (SudokuCSP.SolveSudoku2(sudoku))
+            //{
+            //    Console.WriteLine("Udało się");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("nie udało się");
+            //}
+
+            var result = SudokuCSP.SolveSudoku(sudoku);
+
+            Console.WriteLine(result.Count);
+
+            foreach(var sudo in result)
+            {
+                SudokuReader.PrintSudoku(sudo);
+            }
+
+
         }
     }
 }
