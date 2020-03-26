@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SI_Lab_02
@@ -7,42 +8,87 @@ namespace SI_Lab_02
     class SudokuCSP
     {
 
-        public static void SolveSudokuTest(int[][] sudoku)
+        public static List<int[][]> SolveSudoku2(int[][] problem)
         {
+            int nodesUntilFirst = 0;
+            int reversesUntilFirst = 0;
+            int nodesCount = 0;
+            int reversesCount = 0;
+            int solutionCount = 0;
 
-            int prevRow = 0;
-            int prevColumn = 0;
+            bool m_isSolved = false;
 
-            (int row, int column) = PickNextValue(sudoku);
+            (bool solved, List<int[][]> solutions) = GetAllSolutions(problem);
 
-            if(row == -1)
+            (bool isSolved, List<int[][]> solutions) GetAllSolutions(int[][] problem)
             {
-                Console.WriteLine("Znaleziono rozwiązanie");
-                return;
-            }
-            else
-            {
-                int currentPick = -1;
-
-                currentPick = PickNextPick(currentPick);
-
-                if(currentPick == -100)
+                nodesCount++;
+                if (m_isSolved == false)
+                    nodesUntilFirst++;
+                var variable = PickNextVariable(problem);
+                if (variable.row == -1)
                 {
-
-
-
+                    m_isSolved = true;
+                    solutionCount++;
+                    //Console.WriteLine("dodano");
+                    return (true, new List<int[][]> { problem });
                 }
 
+                var solutions = new List<int[][]>();
 
+                var domain = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
+                foreach (var value in domain)
+                {
+                    if (CheckConstraint(problem, value, variable.row, variable.column))
+                    {
 
+                        int[][] newProblem = copyArray(problem);
+                        newProblem[variable.row][variable.column] = value;
+
+                        var (isSolved, foundSolutions) = GetAllSolutions(newProblem);
+                        if (isSolved == true)
+                        {
+                            //Console.WriteLine("dodano rozwiazanie");
+                            solutions.AddRange(foundSolutions);
+                        }
+                    }
+                }
+
+                reversesCount++;
+                if (m_isSolved == false)
+                    reversesUntilFirst++;
+
+                return solutions.Any()
+                ? (true, solutions)
+                : (false, null);
             }
 
+            Console.WriteLine(solutionCount);
+
+            return solutions;
         }
+
+        public static int[][] copyArray(int[][] source)
+        {
+            int[][] result = new int[source.Length][];
+
+            for(int i = 0; i< source.Length; i++)
+            {
+                result[i] = new int[source[i].Length];
+
+                for (int j = 0; j < source[i].Length; j++)
+                {
+                    result[i][j] = source[i][j];
+                }
+            }
+
+            return result;
+        }
+
 
         public static List<int[][]> SolveSudoku(int[][] sudoku)
         {
-
             List<int[][]> solutions = new List<int[][]>();
             int counter = 0;
 
@@ -50,7 +96,7 @@ namespace SI_Lab_02
 
             bool SolveSudokuInner(int[][] sudoku)
             {
-                (int row, int col) = PickNextValue(sudoku);
+                (int row, int col) = PickNextVariable(sudoku);
 
                 if (row == -1)
                 {
@@ -81,21 +127,15 @@ namespace SI_Lab_02
         }
 
 
-
-        
-
         private static int PickNextPick(int currentPick)
         {
             return (currentPick == 9) ? -100 : currentPick++;
         }
 
-        private static (int row, int column) PickNextValue(int[][] sudoku)
+        private static (int row, int column) PickNextVariable(int[][] sudoku)
         {
-            bool ok = false;
-
             int row = -1;
             int column = -1;
-
 
             for(int i = 0; i< 9; i++)
             {
@@ -107,38 +147,21 @@ namespace SI_Lab_02
                     }
                 }
             }
-
             if(row == -1)
             {
                 return (row, column);
             }
-
-
-
-            //while (!ok)
-            //{
-            //    Random rnd = new Random();
-            //    row = rnd.Next(0, 9);
-            //    column = rnd.Next(0, 9);
-
-            //    if(sudoku[row][column] == 0)
-            //    {
-            //        ok = true;
-            //    }
-            //}
-
             return (row, column);
-
         }
 
         public static bool CheckConstraint(int[][] sudoku, int number, int row, int column)
         {
             return
             CheckNumberValue(number) &&
-            CheckRow(sudoku, number, row) && 
+            CheckRow(sudoku, number, row) &&
             CheckColumn(sudoku, number, column) &&
-            CheckBox(sudoku, number, row - row % 3, column - column % 3) && 
-            sudoku[row][column] == 0;
+            CheckBox(sudoku, number, row - row % 3, column - column % 3);
+            //&& sudoku[row][column] == 0;
         }
 
 

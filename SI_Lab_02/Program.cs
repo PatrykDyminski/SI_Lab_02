@@ -24,18 +24,9 @@ namespace SI_Lab_02
             //var result = SudokuCSP.CheckConstraint(sudoku, 9, 0, 0);
             //Console.WriteLine(result);
 
-            //if (SudokuCSP.SolveSudoku2(sudoku))
-            //{
-            //    Console.WriteLine("Udało się");
-            //}
-            //else
-            //{
-            //    Console.WriteLine("nie udało się");
-            //}
+            var result = SudokuCSP.SolveSudoku2(sudoku);
 
-            var result = SudokuCSP.SolveSudoku(sudoku);
-
-            Console.WriteLine(result.Count);
+            //Console.WriteLine(result.Count);
 
             foreach(var sudo in result)
             {
