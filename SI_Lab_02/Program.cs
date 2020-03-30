@@ -12,26 +12,49 @@ namespace SI_Lab_02
             
             var sudoku = SudokuReader.ReadSudoku(41);
 
-            //JolkaReader.ReadWords(0);
+            SudokuReader.PrintSudoku(sudoku);
+
+            var results = SudokuCSP.SolveSudoku2(sudoku);
+
+            Console.WriteLine("Naciśnij 'y' jeśli chcesz wyświetlić znalezione rozwiązania");
+            if(Console.ReadLine() == "y" && results!=null)
+            {
+                foreach (var element in results)
+                {
+                    SudokuReader.PrintSudoku(element);
+                }
+
+            }
+
+
+
+            //var words = JolkaReader.ReadWords(1);
             //var puzzle = JolkaReader.ReadPuzzle(1);
-
-            //puzzle[0][2] = 'b';
-            //puzzle[0][3] = 'e';
-            //puzzle[0][4] = 'e';
-
-            //var result = JolkaCSP.CheckConstraint(puzzle, "bee", 0, 2, HORIZONTAL);
-
-            //var result = SudokuCSP.CheckConstraint(sudoku, 9, 0, 0);
-            //Console.WriteLine(result);
-
-            var result = SudokuCSP.SolveSudoku2(sudoku);
 
             //Console.WriteLine(result.Count);
 
-            foreach(var sudo in result)
-            {
-                SudokuReader.PrintSudoku(sudo);
-            }
+            //foreach(var sudo in result)
+            //{
+            //    SudokuReader.PrintSudoku(sudo);
+            //}
+
+            //var variables = JolkaCSP.PopulateVariables(puzzle);
+
+            //var results = JolkaCSP.SolveJolka(puzzle, words);
+
+            //Console.WriteLine(words.Length);
+            //Console.WriteLine(variables.Count);
+            //foreach (var element in results)
+            //{
+            //JolkaReader.PrintPuzzle(element);
+            //}
+
+
+
+
+
+            //JolkaReader.PrintPuzzle(JolkaCSP.InsertInto(puzzle, 0, 0, 0, "XDD"));
+
 
 
         }

@@ -16,55 +16,62 @@ namespace SI_Lab_02
             int reversesCount = 0;
             int solutionCount = 0;
 
-            bool m_isSolved = false;
+            bool isSolved = false;
 
             (bool solved, List<int[][]> solutions) = GetAllSolutions(problem);
 
             (bool isSolved, List<int[][]> solutions) GetAllSolutions(int[][] problem)
             {
                 nodesCount++;
-                if (m_isSolved == false)
+                if (isSolved == false)
                     nodesUntilFirst++;
                 var variable = PickNextVariable(problem);
                 if (variable.row == -1)
                 {
-                    m_isSolved = true;
+                    isSolved = true;
                     solutionCount++;
-                    //Console.WriteLine("dodano");
                     return (true, new List<int[][]> { problem });
                 }
 
                 var solutions = new List<int[][]>();
 
-                var domain = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                //var domain = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-                foreach (var value in domain)
+                int value = 0;
+
+                //foreach (var value in domain)
+                while(value != -1)
                 {
+                    value = PickNextValue(value);
+                    
                     if (CheckConstraint(problem, value, variable.row, variable.column))
                     {
-
                         int[][] newProblem = copyArray(problem);
                         newProblem[variable.row][variable.column] = value;
 
                         var (isSolved, foundSolutions) = GetAllSolutions(newProblem);
                         if (isSolved == true)
                         {
-                            //Console.WriteLine("dodano rozwiazanie");
                             solutions.AddRange(foundSolutions);
                         }
                     }
                 }
 
                 reversesCount++;
-                if (m_isSolved == false)
+                if (isSolved == false)
+                {
                     reversesUntilFirst++;
+                }
+                    
 
-                return solutions.Any()
-                ? (true, solutions)
-                : (false, null);
+                return solutions.Any() ? (true, solutions) : (false, null);
             }
 
-            Console.WriteLine(solutionCount);
+            Console.WriteLine("Odwiedzono do 1 rozwiązania: " + nodesUntilFirst);
+            Console.WriteLine("Nawroty do 1 rozwiązania: " + reversesUntilFirst);
+            Console.WriteLine("W sumie odwiedzono: " + nodesCount);
+            Console.WriteLine("W sumie nawrotów: " + reversesCount);
+            Console.WriteLine("Znaleziono rozwiązań: " + solutionCount);
 
             return solutions;
         }
@@ -87,6 +94,7 @@ namespace SI_Lab_02
         }
 
 
+        //stara metoda - znajduje jedno rozwiązanie
         public static List<int[][]> SolveSudoku(int[][] sudoku)
         {
             List<int[][]> solutions = new List<int[][]>();
@@ -118,6 +126,7 @@ namespace SI_Lab_02
                         sudoku[row][col] = 0;
                     }
                 }
+
                 return false;
             }
 
@@ -127,9 +136,9 @@ namespace SI_Lab_02
         }
 
 
-        private static int PickNextPick(int currentPick)
+        private static int PickNextValue(int currentPick)
         {
-            return (currentPick == 9) ? -100 : currentPick++;
+            return currentPick != 9 ? ++currentPick : -1;
         }
 
         private static (int row, int column) PickNextVariable(int[][] sudoku)

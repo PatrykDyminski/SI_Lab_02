@@ -16,7 +16,7 @@ namespace SI_Lab_02
             string sudoku = lines[number][2];
             var parsed = ParseSudoku(sudoku);
 
-            PrintSudoku(parsed);
+            //PrintSudoku(parsed);
             return parsed;
         }
 

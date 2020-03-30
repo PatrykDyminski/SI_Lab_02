@@ -23,7 +23,7 @@ namespace SI_Lab_02
                 tablicaCzarow[j] = lines[j].ToCharArray();
             }
 
-            PrintPuzzle(tablicaCzarow);
+            //PrintPuzzle(tablicaCzarow);
 
             return tablicaCzarow;
         }
