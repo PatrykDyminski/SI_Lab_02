@@ -9,15 +9,18 @@ namespace SI_Lab_02
 
         static void Main(string[] args)
         {
-            
-            var sudoku = SudokuReader.ReadSudoku(41);
+
+            var sudoku = SudokuReader.ReadSudoku(42);
 
             SudokuReader.PrintSudoku(sudoku);
 
+            var sudoku2 = SudokuCSP.copyArray(sudoku);
+
             var results = SudokuCSP.SolveSudoku2(sudoku);
+            var resultsForward = SudokuCSP.SolveSudokuForward(sudoku2);
 
             Console.WriteLine("Naciśnij 'y' jeśli chcesz wyświetlić znalezione rozwiązania");
-            if(Console.ReadLine() == "y" && results!=null)
+            if (Console.ReadLine() == "y" && results != null)
             {
                 foreach (var element in results)
                 {
@@ -26,7 +29,21 @@ namespace SI_Lab_02
 
             }
 
+            int[][] test = new int[9][];
+            test[0] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            test[1] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            test[2] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
 
+            test[3] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            test[4] = new int[] { 0, 0, 0,  0, 5, 0,  0, 0, 0 };
+            test[5] = new int[] { 0, 0, 0,  0, 6, 7,  0, 0, 0 };
+
+            test[6] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            test[7] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            test[8] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+
+
+            //SudokuReader.PrintArray(SudokuCSP.FilterDomain(test, 3, 3));
 
             //var words = JolkaReader.ReadWords(1);
             //var puzzle = JolkaReader.ReadPuzzle(1);

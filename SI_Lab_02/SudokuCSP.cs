@@ -7,7 +7,6 @@ namespace SI_Lab_02
 {
     class SudokuCSP
     {
-
         public static List<int[][]> SolveSudoku2(int[][] problem)
         {
             int nodesUntilFirst = 0;
@@ -22,7 +21,7 @@ namespace SI_Lab_02
 
             (bool isSolved, List<int[][]> solutions) GetAllSolutions(int[][] problem)
             {
-                nodesCount++;
+                
                 if (isSolved == false)
                     nodesUntilFirst++;
                 var variable = PickNextVariable(problem);
@@ -43,7 +42,9 @@ namespace SI_Lab_02
                 while(value != -1)
                 {
                     value = PickNextValue(value);
-                    
+
+                    nodesCount++;
+
                     if (CheckConstraint(problem, value, variable.row, variable.column))
                     {
                         int[][] newProblem = copyArray(problem);
@@ -76,6 +77,77 @@ namespace SI_Lab_02
             return solutions;
         }
 
+        public static List<int[][]> SolveSudokuForward(int[][] problem)
+        {
+            int nodesUntilFirst = 0;
+            int reversesUntilFirst = 0;
+            int nodesCount = 0;
+            int reversesCount = 0;
+            int solutionCount = 0;
+
+            bool isSolved = false;
+
+            (bool solved, List<int[][]> solutions) = GetAllSolutions(problem);
+
+            (bool isSolved, List<int[][]> solutions) GetAllSolutions(int[][] problem)
+            {
+                
+                if (isSolved == false)
+                    nodesUntilFirst++;
+                var variable = PickNextVariable(problem);
+                if (variable.row == -1)
+                {
+                    isSolved = true;
+                    solutionCount++;
+                    return (true, new List<int[][]> { problem });
+                }
+
+                var solutions = new List<int[][]>();
+
+                //var domain = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                var filteredDomain = FilterDomain(problem, variable.row, variable.column);
+
+                //int value = 0;
+
+                //while (value != -1)
+                foreach (var value in filteredDomain)
+                {
+                    //value = PickNextValue(value);
+
+                    nodesCount++;
+
+                    if (CheckConstraint(problem, value, variable.row, variable.column))
+                    {
+                        int[][] newProblem = copyArray(problem);
+                        newProblem[variable.row][variable.column] = value;
+
+                        var (isSolved, foundSolutions) = GetAllSolutions(newProblem);
+                        if (isSolved == true)
+                        {
+                            solutions.AddRange(foundSolutions);
+                        }
+                    }
+                }
+
+                reversesCount++;
+                if (isSolved == false)
+                {
+                    reversesUntilFirst++;
+                }
+
+
+                return solutions.Any() ? (true, solutions) : (false, null);
+            }
+
+            Console.WriteLine("Odwiedzono do 1 rozwiązania: " + nodesUntilFirst);
+            Console.WriteLine("Nawroty do 1 rozwiązania: " + reversesUntilFirst);
+            Console.WriteLine("W sumie odwiedzono: " + nodesCount);
+            Console.WriteLine("W sumie nawrotów: " + reversesCount);
+            Console.WriteLine("Znaleziono rozwiązań: " + solutionCount);
+
+            return solutions;
+        }
+
         public static int[][] copyArray(int[][] source)
         {
             int[][] result = new int[source.Length][];
@@ -92,7 +164,6 @@ namespace SI_Lab_02
 
             return result;
         }
-
 
         //stara metoda - znajduje jedno rozwiązanie
         public static List<int[][]> SolveSudoku(int[][] sudoku)
@@ -135,6 +206,32 @@ namespace SI_Lab_02
             return solutions;
         }
 
+        public static int[] FilterDomain(int[][] sudoku, int row, int column)
+        {
+            List<int> badDomain = new List<int>();
+            List<int> fullDomain = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            for (int i = 0; i < 9; i++)
+            {
+                badDomain.Add(sudoku[row][i]);
+            }
+
+            for (int i = 0; i < 9; i++)
+            {
+                badDomain.Add(sudoku[i][column]);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    badDomain.Add(sudoku[i + row - row % 3][j + column - column % 3]);
+                }
+            }
+
+            return fullDomain.Except(badDomain.Distinct()).ToArray();
+
+        }
 
         private static int PickNextValue(int currentPick)
         {
@@ -172,7 +269,6 @@ namespace SI_Lab_02
             CheckBox(sudoku, number, row - row % 3, column - column % 3);
             //&& sudoku[row][column] == 0;
         }
-
 
         public static bool CheckNumberValue(int number)
         {
