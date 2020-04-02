@@ -7,7 +7,7 @@ namespace SI_Lab_02
 {
     class SudokuCSP
     {
-        public static List<int[][]> SolveSudoku2(int[][] problem)
+        public static List<int[][]> SolveSudoku2(int[][] problem, INextVariable nextVariable)
         {
             int nodesUntilFirst = 0;
             int reversesUntilFirst = 0;
@@ -24,7 +24,7 @@ namespace SI_Lab_02
                 
                 if (isSolved == false)
                     nodesUntilFirst++;
-                var variable = PickNextVariable(problem);
+                var variable = nextVariable.Next(problem);
                 if (variable.row == -1)
                 {
                     isSolved = true;
@@ -64,7 +64,6 @@ namespace SI_Lab_02
                     reversesUntilFirst++;
                 }
                     
-
                 return solutions.Any() ? (true, solutions) : (false, null);
             }
 
@@ -77,7 +76,7 @@ namespace SI_Lab_02
             return solutions;
         }
 
-        public static List<int[][]> SolveSudokuForward(int[][] problem)
+        public static List<int[][]> SolveSudokuForward(int[][] problem, INextVariable nextVariable)
         {
             int nodesUntilFirst = 0;
             int reversesUntilFirst = 0;
@@ -94,7 +93,7 @@ namespace SI_Lab_02
                 
                 if (isSolved == false)
                     nodesUntilFirst++;
-                var variable = PickNextVariable(problem);
+                var variable = nextVariable.Next(problem);
                 if (variable.row == -1)
                 {
                     isSolved = true;
@@ -135,7 +134,6 @@ namespace SI_Lab_02
                     reversesUntilFirst++;
                 }
 
-
                 return solutions.Any() ? (true, solutions) : (false, null);
             }
 
@@ -146,23 +144,6 @@ namespace SI_Lab_02
             Console.WriteLine("Znaleziono rozwiązań: " + solutionCount);
 
             return solutions;
-        }
-
-        public static int[][] copyArray(int[][] source)
-        {
-            int[][] result = new int[source.Length][];
-
-            for(int i = 0; i< source.Length; i++)
-            {
-                result[i] = new int[source[i].Length];
-
-                for (int j = 0; j < source[i].Length; j++)
-                {
-                    result[i][j] = source[i][j];
-                }
-            }
-
-            return result;
         }
 
         //stara metoda - znajduje jedno rozwiązanie
@@ -260,6 +241,42 @@ namespace SI_Lab_02
             return (row, column);
         }
 
+        public static (int row, int column) PickNextVariable2(int[][] sudoku)
+        {
+            List<Tuple<int, int>> puste = new List<Tuple<int, int>>();
+
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    if (sudoku[i][j] == 0)
+                    {
+                        puste.Add(new Tuple<int, int>(i, j));
+                    }
+                }
+            }
+
+            puste.Sort(CompareTuple);
+
+            if (puste.Count == 0)
+            {
+                return (-1, -1);
+            }
+
+            //puste.ForEach(Console.WriteLine);
+
+            return (puste[0].Item1, puste[0].Item2);
+        }
+
+        private static int CompareTuple(Tuple<int, int> t1, Tuple<int, int> t2)
+        {
+            if (t1.Item1 + t1.Item2 > t2.Item1 + t2.Item2)
+            {
+                return 1;
+            }
+            else return -1;
+        }
+
         public static bool CheckConstraint(int[][] sudoku, int number, int row, int column)
         {
             return
@@ -314,6 +331,22 @@ namespace SI_Lab_02
             return true;
         }
 
+        public static int[][] copyArray(int[][] source)
+        {
+            int[][] result = new int[source.Length][];
+
+            for (int i = 0; i < source.Length; i++)
+            {
+                result[i] = new int[source[i].Length];
+
+                for (int j = 0; j < source[i].Length; j++)
+                {
+                    result[i][j] = source[i][j];
+                }
+            }
+
+            return result;
+        }
 
     }
 }

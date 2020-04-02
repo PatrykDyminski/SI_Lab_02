@@ -12,12 +12,17 @@ namespace SI_Lab_02
 
             var sudoku = SudokuReader.ReadSudoku(42);
 
-            SudokuReader.PrintSudoku(sudoku);
+            //SudokuReader.PrintSudoku(sudoku);
 
             var sudoku2 = SudokuCSP.copyArray(sudoku);
 
-            var results = SudokuCSP.SolveSudoku2(sudoku);
-            var resultsForward = SudokuCSP.SolveSudokuForward(sudoku2);
+            var nextNatural = new NextVariableNatural();
+            var nextWave = new NextVariableWave();
+
+            var results = SudokuCSP.SolveSudoku2(sudoku, nextNatural);
+            var resultsForward = SudokuCSP.SolveSudokuForward(sudoku2, nextNatural);
+            var results2 = SudokuCSP.SolveSudoku2(sudoku, nextWave);
+            var resultsForward2 = SudokuCSP.SolveSudokuForward(sudoku2, nextWave);
 
             Console.WriteLine("Naciśnij 'y' jeśli chcesz wyświetlić znalezione rozwiązania");
             if (Console.ReadLine() == "y" && results != null)
@@ -43,6 +48,8 @@ namespace SI_Lab_02
             test[8] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
 
 
+            //SudokuCSP.PickNextVariable2(test);
+
             //SudokuReader.PrintArray(SudokuCSP.FilterDomain(test, 3, 3));
 
             //var words = JolkaReader.ReadWords(1);
@@ -66,14 +73,7 @@ namespace SI_Lab_02
             //JolkaReader.PrintPuzzle(element);
             //}
 
-
-
-
-
             //JolkaReader.PrintPuzzle(JolkaCSP.InsertInto(puzzle, 0, 0, 0, "XDD"));
-
-
-
         }
     }
 }
