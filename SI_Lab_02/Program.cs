@@ -10,7 +10,7 @@ namespace SI_Lab_02
         static void Main(string[] args)
         {
 
-            var sudoku = SudokuReader.ReadSudoku(42);
+            var sudoku = SudokuReader.ReadSudoku(45);
 
             //SudokuReader.PrintSudoku(sudoku);
 
@@ -19,33 +19,40 @@ namespace SI_Lab_02
             var nextNatural = new NextVariableNatural();
             var nextWave = new NextVariableWave();
 
-            var results = SudokuCSP.SolveSudoku2(sudoku, nextNatural);
-            var resultsForward = SudokuCSP.SolveSudokuForward(sudoku2, nextNatural);
-            var results2 = SudokuCSP.SolveSudoku2(sudoku, nextWave);
-            var resultsForward2 = SudokuCSP.SolveSudokuForward(sudoku2, nextWave);
+            var resTemp = SudokuCSP.SolveSudokuForwardRev(sudoku, nextNatural);
 
-            Console.WriteLine("Naciśnij 'y' jeśli chcesz wyświetlić znalezione rozwiązania");
-            if (Console.ReadLine() == "y" && results != null)
-            {
-                foreach (var element in results)
-                {
-                    SudokuReader.PrintSudoku(element);
-                }
+            //var results = SudokuCSP.SolveSudoku2(sudoku, nextNatural);
+            //var resultsForward = SudokuCSP.SolveSudokuForward(sudoku2, nextNatural);
+            //var results2 = SudokuCSP.SolveSudoku2(sudoku, nextWave);
+            //var resultsForward2 = SudokuCSP.SolveSudokuForward(sudoku2, nextWave);
 
-            }
+            //Console.WriteLine("Naciśnij 'y' jeśli chcesz wyświetlić znalezione rozwiązania");
+            //if (Console.ReadLine() == "y" && results != null)
+            //{
+            //    foreach (var element in results)
+            //    {
+            //        SudokuReader.PrintSudoku(element);
+            //    }
 
-            int[][] test = new int[9][];
-            test[0] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
-            test[1] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
-            test[2] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            //}
 
-            test[3] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
-            test[4] = new int[] { 0, 0, 0,  0, 5, 0,  0, 0, 0 };
-            test[5] = new int[] { 0, 0, 0,  0, 6, 7,  0, 0, 0 };
+            //int[][] test = new int[9][];
+            //test[0] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            //test[1] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            //test[2] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
 
-            test[6] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
-            test[7] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
-            test[8] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            //test[3] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            //test[4] = new int[] { 0, 0, 0,  0, 5, 0,  0, 0, 0 };
+            //test[5] = new int[] { 0, 0, 0,  0, 6, 7,  0, 0, 0 };
+
+            //test[6] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            //test[7] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+            //test[8] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
+
+
+            //
+
+            //SudokuReader.PrintArray(domains);
 
 
             //SudokuCSP.PickNextVariable2(test);

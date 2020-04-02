@@ -146,6 +146,103 @@ namespace SI_Lab_02
             return solutions;
         }
 
+        public static List<int[][]> SolveSudokuForwardRev(int[][] problem, INextVariable nextVariable)
+        {
+            int nodesUntilFirst = 0;
+            int reversesUntilFirst = 0;
+            int nodesCount = 0;
+            int reversesCount = 0;
+            int solutionCount = 0;
+
+            bool isSolved = false;
+
+            List<int>[][] initDomains = new List<int>[9][]; ;
+
+
+            for (int i = 0; i < 9; i++)
+            {
+                initDomains[i] = new List<int>[9];
+
+                for (int j = 0; j < 9; j++)
+                {
+                    initDomains[i][j] = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                }
+
+            }
+
+
+
+            (bool solved, List<int[][]> solutions) = GetAllSolutions(problem, initDomains);
+
+            (bool isSolved, List<int[][]> solutions) GetAllSolutions(int[][] problem, List<int>[][] domains)
+            {
+
+                if (isSolved == false)
+                    nodesUntilFirst++;
+                var variable = nextVariable.Next(problem);
+                if (variable.row == -1)
+                {
+                    isSolved = true;
+                    solutionCount++;
+                    return (true, new List<int[][]> { problem });
+                }
+
+                var solutions = new List<int[][]>();
+
+                //var domain = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                //var filteredDomain = FilterDomain(problem, variable.row, variable.column);
+
+                var domain = domains[variable.row][variable.column];
+
+                //Console.WriteLine("Domena dla: " + variable.row + " " + variable.column);
+                //domain.ForEach(Console.Write);
+
+                //int value = 0;
+
+                //while (value != -1)
+                foreach (var value in domain)
+                {
+                    //value = PickNextValue(value);
+
+                    //Console.WriteLine(value);
+
+                    nodesCount++;
+
+                    if (CheckConstraint(problem, value, variable.row, variable.column))
+                    {
+                        int[][] newProblem = copyArray(problem);
+                        newProblem[variable.row][variable.column] = value;
+
+                        var newDomain = UpdateDomains(domains, variable.row, variable.column, value);
+
+
+
+                        var (isSolved, foundSolutions) = GetAllSolutions(newProblem, newDomain);
+                        if (isSolved == true)
+                        {
+                            solutions.AddRange(foundSolutions);
+                        }
+                    }
+                }
+
+                reversesCount++;
+                if (isSolved == false)
+                {
+                    reversesUntilFirst++;
+                }
+
+                return solutions.Any() ? (true, solutions) : (false, null);
+            }
+
+            Console.WriteLine("Odwiedzono do 1 rozwiązania: " + nodesUntilFirst);
+            Console.WriteLine("Nawroty do 1 rozwiązania: " + reversesUntilFirst);
+            Console.WriteLine("W sumie odwiedzono: " + nodesCount);
+            Console.WriteLine("W sumie nawrotów: " + reversesCount);
+            Console.WriteLine("Znaleziono rozwiązań: " + solutionCount);
+
+            return solutions;
+        }
+
         //stara metoda - znajduje jedno rozwiązanie
         public static List<int[][]> SolveSudoku(int[][] sudoku)
         {
@@ -185,6 +282,59 @@ namespace SI_Lab_02
             Console.WriteLine(counter);
 
             return solutions;
+        }
+
+
+        public static List<int>[][] UpdateDomains(List<int>[][] domains, int row, int column, int value)
+        {
+
+            List<int>[][] domainsNew = new List<int>[9][];
+
+            for (int i = 0; i < 9; i++)
+            {
+                domainsNew[i] = new List<int>[9];
+
+                for(int j = 0; j<9; j++)
+                {
+                    domainsNew[i][j] = new List<int>();
+
+                    domains[i][j].ForEach((item) =>
+                    {
+                        domainsNew[i][j].Add(item);
+                    });
+                }
+
+            }
+
+            for (int i = 0; i < 9; i++)
+            {
+                domainsNew[row][i].Remove(value);
+            }
+
+            for (int i = 0; i < 9; i++)
+            {
+                domainsNew[i][column].Remove(value);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    domainsNew[i + row - row % 3][j + column - column % 3].Remove(value);
+                }
+            }
+
+            //for (int i = 0; i < 9; i++)
+            //{
+            //    for (int j = 0; j < 9; j++)
+            //    {
+            //        Console.Write(i + " " + j + " ");
+            //        domains[i][j].ForEach(Console.Write);
+            //        Console.WriteLine();
+            //    }
+            //}
+
+            return domainsNew;
         }
 
         public static int[] FilterDomain(int[][] sudoku, int row, int column)
