@@ -1,4 +1,6 @@
-﻿namespace SI_Lab_02
+﻿using SI_Lab_02.Sudoku.CSP;
+
+namespace SI_Lab_02
 {
     class Program
     {
@@ -19,10 +21,10 @@
 
             //var resTemp = SudokuCSP.SolveSudokuForwardRev(sudoku, nextNatural);
 
-            var results = SudokuCSP.SolveSudoku2(sudoku, nextNatural, naturalOrder);
-            var resultsForward = SudokuCSP.SolveSudokuForwardRev(sudoku, nextNatural, naturalOrder);
-            var results2 = SudokuCSP.SolveSudoku2(sudoku, nextWave, naturalOrder);
-            var resultsForward2 = SudokuCSP.SolveSudokuForwardRev(sudoku, nextWave, naturalOrder);
+            var results = BacktrackingCSP.SolveSudoku(sudoku, nextNatural, naturalOrder);
+            var resultsForward = ForwardCheckingCSP.SolveSudoku(sudoku, nextNatural, naturalOrder);
+            var results2 = BacktrackingCSP.SolveSudoku(sudoku, nextWave, naturalOrder);
+            var resultsForward2 = ForwardCheckingCSP.SolveSudoku(sudoku, nextWave, naturalOrder);
 
             //Console.WriteLine("Naciśnij 'y' jeśli chcesz wyświetlić znalezione rozwiązania");
             //if (Console.ReadLine() == "y" && results != null)
