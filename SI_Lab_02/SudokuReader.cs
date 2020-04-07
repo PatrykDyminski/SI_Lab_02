@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace SI_Lab_02
 {
     class SudokuReader
     {
-
         public static int[][] ReadSudoku(int number)
         {
             var read = File.ReadAllLines("Sudoku.csv").Select(a => a.Split(';'));
@@ -16,7 +13,6 @@ namespace SI_Lab_02
             string sudoku = lines[number][2];
             var parsed = ParseSudoku(sudoku);
 
-            //PrintSudoku(parsed);
             return parsed;
         }
 
@@ -27,8 +23,6 @@ namespace SI_Lab_02
 
             for(int i = 0; i < 81; i++)
             {
-                //Console.WriteLine(array[i]);
-
                 if (array[i] == '.')
                 {
                     intArray[i] = 0;
@@ -53,7 +47,6 @@ namespace SI_Lab_02
             }
 
             return sudoku;
-
         }
 
         public static void PrintArray(int[] line)
@@ -67,7 +60,6 @@ namespace SI_Lab_02
                 {
                     Console.Write("| ");
                 }
-
             }
             Console.WriteLine();
         }
@@ -84,11 +76,9 @@ namespace SI_Lab_02
                 {
                     Console.WriteLine("-----------------------");
                 }
-
             }
             Console.WriteLine("End of SUDO-ku");
         }
-
     }
             
 }

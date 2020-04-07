@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SI_Lab_02
 {
@@ -27,8 +26,6 @@ namespace SI_Lab_02
             {
                 return (-1, -1);
             }
-
-            //puste.ForEach(Console.WriteLine);
 
             return (puste[0].Item1, puste[0].Item2);
         }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SI_Lab_02
 {
     class SudokuCSP
     {
+
+        //Backtracking
         public static List<int[][]> SolveSudoku2(int[][] problem, INextVariable nextVariable)
         {
             int nodesUntilFirst = 0;
@@ -76,6 +77,8 @@ namespace SI_Lab_02
             return solutions;
         }
 
+
+        //Niepoprawny forward checking, tak naprawdę turbobacktracking XD
         public static List<int[][]> SolveSudokuForward(int[][] problem, INextVariable nextVariable)
         {
             int nodesUntilFirst = 0;
@@ -146,6 +149,8 @@ namespace SI_Lab_02
             return solutions;
         }
 
+
+        //Poprawny forward checking
         public static List<int[][]> SolveSudokuForwardRev(int[][] problem, INextVariable nextVariable)
         {
             int nodesUntilFirst = 0;
@@ -158,7 +163,6 @@ namespace SI_Lab_02
 
             List<int>[][] initDomains = new List<int>[9][]; ;
 
-
             for (int i = 0; i < 9; i++)
             {
                 initDomains[i] = new List<int>[9];
@@ -169,8 +173,6 @@ namespace SI_Lab_02
                 }
 
             }
-
-
 
             (bool solved, List<int[][]> solutions) = GetAllSolutions(problem, initDomains);
 
@@ -189,23 +191,10 @@ namespace SI_Lab_02
 
                 var solutions = new List<int[][]>();
 
-                //var domain = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-                //var filteredDomain = FilterDomain(problem, variable.row, variable.column);
-
                 var domain = domains[variable.row][variable.column];
 
-                //Console.WriteLine("Domena dla: " + variable.row + " " + variable.column);
-                //domain.ForEach(Console.Write);
-
-                //int value = 0;
-
-                //while (value != -1)
                 foreach (var value in domain)
                 {
-                    //value = PickNextValue(value);
-
-                    //Console.WriteLine(value);
-
                     nodesCount++;
 
                     if (CheckConstraint(problem, value, variable.row, variable.column))
@@ -214,8 +203,6 @@ namespace SI_Lab_02
                         newProblem[variable.row][variable.column] = value;
 
                         var newDomain = UpdateDomains(domains, variable.row, variable.column, value);
-
-
 
                         var (isSolved, foundSolutions) = GetAllSolutions(newProblem, newDomain);
                         if (isSolved == true)
@@ -242,48 +229,6 @@ namespace SI_Lab_02
 
             return solutions;
         }
-
-        //stara metoda - znajduje jedno rozwiązanie
-        public static List<int[][]> SolveSudoku(int[][] sudoku)
-        {
-            List<int[][]> solutions = new List<int[][]>();
-            int counter = 0;
-
-            SolveSudokuInner(sudoku);
-
-            bool SolveSudokuInner(int[][] sudoku)
-            {
-                (int row, int col) = PickNextVariable(sudoku);
-
-                if (row == -1)
-                {
-                    solutions.Add(sudoku);
-                    counter++;
-                    //SudokuReader.PrintSudoku(sudoku);
-                    return true; // udane 
-                }
-
-
-                for (int num = 1; num <= 9; num++)
-                {
-                    if (CheckConstraint(sudoku, num, row, col))
-                    {
-                        sudoku[row][col] = num;
-                        if (SolveSudokuInner(sudoku))
-                            return true;
-
-                        sudoku[row][col] = 0;
-                    }
-                }
-
-                return false;
-            }
-
-            Console.WriteLine(counter);
-
-            return solutions;
-        }
-
 
         public static List<int>[][] UpdateDomains(List<int>[][] domains, int row, int column, int value)
         {
@@ -367,64 +312,6 @@ namespace SI_Lab_02
         private static int PickNextValue(int currentPick)
         {
             return currentPick != 9 ? ++currentPick : -1;
-        }
-
-        private static (int row, int column) PickNextVariable(int[][] sudoku)
-        {
-            int row = -1;
-            int column = -1;
-
-            for(int i = 0; i< 9; i++)
-            {
-                for(int j = 0; j < 9; j++)
-                {
-                    if(sudoku[i][j] == 0)
-                    {
-                        return (i, j);
-                    }
-                }
-            }
-            if(row == -1)
-            {
-                return (row, column);
-            }
-            return (row, column);
-        }
-
-        public static (int row, int column) PickNextVariable2(int[][] sudoku)
-        {
-            List<Tuple<int, int>> puste = new List<Tuple<int, int>>();
-
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    if (sudoku[i][j] == 0)
-                    {
-                        puste.Add(new Tuple<int, int>(i, j));
-                    }
-                }
-            }
-
-            puste.Sort(CompareTuple);
-
-            if (puste.Count == 0)
-            {
-                return (-1, -1);
-            }
-
-            //puste.ForEach(Console.WriteLine);
-
-            return (puste[0].Item1, puste[0].Item2);
-        }
-
-        private static int CompareTuple(Tuple<int, int> t1, Tuple<int, int> t2)
-        {
-            if (t1.Item1 + t1.Item2 > t2.Item1 + t2.Item2)
-            {
-                return 1;
-            }
-            else return -1;
         }
 
         public static bool CheckConstraint(int[][] sudoku, int number, int row, int column)

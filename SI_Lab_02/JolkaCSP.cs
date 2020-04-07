@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SI_Lab_02
 {
@@ -10,10 +9,8 @@ namespace SI_Lab_02
         public static int HORIZONTAL = 0;
         public static int VERTICAL = 1;
 
-
         public static List<char[][]> SolveJolka(char[][] jolka, string[] words)
         {
-
             int nodesUntilFirst = 0;
             int reversesUntilFirst = 0;
             int nodesCount = 0;
@@ -125,12 +122,9 @@ namespace SI_Lab_02
             return result;
         }
 
-
-
         public static List<Tuple<int, int, int>> PopulateVariables(char[][] jolka)
         {
             List<Tuple<int, int, int>> variables = new List<Tuple<int, int, int>>();
-
 
             //wiersze
             for (int i = 0; i < jolka.Length; i++)
@@ -183,7 +177,6 @@ namespace SI_Lab_02
                     }
                 }
             }
-
             return variables;
         }
 
@@ -228,13 +221,6 @@ namespace SI_Lab_02
             }
 
             return false;
-
-        }
-
-
-        public static void PickNextVariable(char[][] jolka)
-        {
-
         }
 
         public static bool CheckConstraint(char[][] puzzle, string word, int startRow, int startColumn, int direction)
@@ -311,7 +297,6 @@ namespace SI_Lab_02
             }
 
             return true;
-
         }
 
         public static bool CheckLength(char[][] puzzle, string word, int startRow, int startColumn, int direction)
@@ -322,22 +307,12 @@ namespace SI_Lab_02
                 return false;
             }
 
-
             if(direction == VERTICAL)
             {
-                //if (puzzle.Length - startRow > word.Length)
-                //    return true;
-                //else return false;
-
                 return (puzzle.Length - startRow >= word.Length) ? true : false;
-
             }
             else if(direction == HORIZONTAL)
             {
-                //if (puzzle[0].Length - startColumn > word.Length)
-                //    return true;
-                //else return false;
-
                 return (puzzle[0].Length - startColumn >= word.Length) ? true : false;
             }
             else
@@ -363,12 +338,10 @@ namespace SI_Lab_02
                         {
                             return false;
                         }
-
                     }
                 }
 
                 return true;
-
             }
             else if (direction == HORIZONTAL)
             {
@@ -380,7 +353,6 @@ namespace SI_Lab_02
                         {
                             return false;
                         }
-
                     }
                 }
 

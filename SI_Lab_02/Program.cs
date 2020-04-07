@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SI_Lab_02
+﻿namespace SI_Lab_02
 {
     class Program
     {
@@ -10,7 +8,7 @@ namespace SI_Lab_02
         static void Main(string[] args)
         {
 
-            var sudoku = SudokuReader.ReadSudoku(45);
+            var sudoku = SudokuReader.ReadSudoku(41);
 
             //SudokuReader.PrintSudoku(sudoku);
 
