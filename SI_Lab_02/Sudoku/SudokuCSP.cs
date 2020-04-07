@@ -412,11 +412,6 @@ namespace SI_Lab_02
 
         }
 
-        private static int PickNextValue(int currentPick)
-        {
-            return currentPick != 9 ? ++currentPick : -1;
-        }
-
         public static bool CheckConstraint(int[][] sudoku, int number, int row, int column)
         {
             return
