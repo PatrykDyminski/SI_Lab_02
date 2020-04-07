@@ -12,17 +12,17 @@
 
             //SudokuReader.PrintSudoku(sudoku);
 
-            var sudoku2 = SudokuCSP.copyArray(sudoku);
-
             var nextNatural = new NextVariableNatural();
             var nextWave = new NextVariableWave();
+            var naturalOrder = new DomainOrderNatural();
+            var randomOrder = new DomainOrderRandom();
 
-            var resTemp = SudokuCSP.SolveSudokuForwardRev(sudoku, nextNatural);
+            //var resTemp = SudokuCSP.SolveSudokuForwardRev(sudoku, nextNatural);
 
-            //var results = SudokuCSP.SolveSudoku2(sudoku, nextNatural);
-            //var resultsForward = SudokuCSP.SolveSudokuForward(sudoku2, nextNatural);
-            //var results2 = SudokuCSP.SolveSudoku2(sudoku, nextWave);
-            //var resultsForward2 = SudokuCSP.SolveSudokuForward(sudoku2, nextWave);
+            var results = SudokuCSP.SolveSudoku2(sudoku, nextNatural, naturalOrder);
+            var resultsForward = SudokuCSP.SolveSudokuForwardRev(sudoku, nextNatural, naturalOrder);
+            var results2 = SudokuCSP.SolveSudoku2(sudoku, nextWave, naturalOrder);
+            var resultsForward2 = SudokuCSP.SolveSudokuForwardRev(sudoku, nextWave, naturalOrder);
 
             //Console.WriteLine("Naciśnij 'y' jeśli chcesz wyświetlić znalezione rozwiązania");
             //if (Console.ReadLine() == "y" && results != null)
