@@ -1,4 +1,5 @@
 ﻿using SI_Lab_02.Sudoku.CSP;
+using System;
 
 namespace SI_Lab_02
 {
@@ -10,7 +11,9 @@ namespace SI_Lab_02
         static void Main(string[] args)
         {
 
-            var sudoku = SudokuReader.ReadSudoku(41);
+            int nr = 45;
+
+            var sudoku = SudokuReader.ReadSudoku(nr - 1);
 
             //SudokuReader.PrintSudoku(sudoku);
 
@@ -21,10 +24,30 @@ namespace SI_Lab_02
 
             //var resTemp = SudokuCSP.SolveSudokuForwardRev(sudoku, nextNatural);
 
-            var results = BacktrackingCSP.SolveSudoku(sudoku, nextNatural, naturalOrder);
-            var resultsForward = ForwardCheckingCSP.SolveSudoku(sudoku, nextNatural, naturalOrder);
-            var results2 = BacktrackingCSP.SolveSudoku(sudoku, nextWave, naturalOrder);
-            var resultsForward2 = ForwardCheckingCSP.SolveSudoku(sudoku, nextWave, naturalOrder);
+            Console.WriteLine("Backtracking, naturalna kolejność zmiennych, naturalna kolejność w dziedzinie"); 
+            var bnn = BacktrackingCSP.SolveSudoku(sudoku, nextNatural, naturalOrder);
+
+            Console.WriteLine("Forward Checking, naturalna kolejność zmiennych, naturalna kolejność w dziedzinie");
+            var fnn = ForwardCheckingCSP.SolveSudoku(sudoku, nextNatural, naturalOrder);
+
+            Console.WriteLine("Backtracking, falowa kolejność zmiennych, naturalna kolejność w dziedzinie");
+            var bwn = BacktrackingCSP.SolveSudoku(sudoku, nextWave, naturalOrder);
+
+            Console.WriteLine("Forward Checking, falowa kolejność zmiennych, naturalna kolejność w dziedzinie");
+            var fwn = ForwardCheckingCSP.SolveSudoku(sudoku, nextWave, naturalOrder);
+
+            Console.WriteLine("Backtracking, naturalna kolejność zmiennych, losowa kolejność w dziedzinie");
+            var bnr = BacktrackingCSP.SolveSudoku(sudoku, nextNatural, randomOrder);
+
+            Console.WriteLine("Forward Checking, naturalna kolejność zmiennych, losowa kolejność w dziedzinie");
+            var fnr = ForwardCheckingCSP.SolveSudoku(sudoku, nextNatural, randomOrder);
+
+            Console.WriteLine("Backtracking, falowa kolejność zmiennych, losowa kolejność w dziedzinie");
+            var bwr = BacktrackingCSP.SolveSudoku(sudoku, nextWave, randomOrder);
+
+            Console.WriteLine("Forward Checking, falowa kolejność zmiennych, losowa kolejność w dziedzinie");
+            var fwr = ForwardCheckingCSP.SolveSudoku(sudoku, nextWave, randomOrder);
+
 
             //Console.WriteLine("Naciśnij 'y' jeśli chcesz wyświetlić znalezione rozwiązania");
             //if (Console.ReadLine() == "y" && results != null)
@@ -48,39 +71,6 @@ namespace SI_Lab_02
             //test[6] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
             //test[7] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
             //test[8] = new int[] { 0, 0, 0,  0, 0, 0,  0, 0, 0 };
-
-
-            //
-
-            //SudokuReader.PrintArray(domains);
-
-
-            //SudokuCSP.PickNextVariable2(test);
-
-            //SudokuReader.PrintArray(SudokuCSP.FilterDomain(test, 3, 3));
-
-            //var words = JolkaReader.ReadWords(1);
-            //var puzzle = JolkaReader.ReadPuzzle(1);
-
-            //Console.WriteLine(result.Count);
-
-            //foreach(var sudo in result)
-            //{
-            //    SudokuReader.PrintSudoku(sudo);
-            //}
-
-            //var variables = JolkaCSP.PopulateVariables(puzzle);
-
-            //var results = JolkaCSP.SolveJolka(puzzle, words);
-
-            //Console.WriteLine(words.Length);
-            //Console.WriteLine(variables.Count);
-            //foreach (var element in results)
-            //{
-            //JolkaReader.PrintPuzzle(element);
-            //}
-
-            //JolkaReader.PrintPuzzle(JolkaCSP.InsertInto(puzzle, 0, 0, 0, "XDD"));
         }
     }
 }

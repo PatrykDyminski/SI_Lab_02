@@ -17,6 +17,8 @@ namespace SI_Lab_02.Sudoku.CSP
 
             Stopwatch timer = Stopwatch.StartNew();
 
+            TimeSpan timeTofirst = timer.Elapsed;
+
             bool isSolved = false;
 
             List<int>[][] initDomains = new List<int>[9][]; ;
@@ -48,12 +50,13 @@ namespace SI_Lab_02.Sudoku.CSP
 
             (bool isSolved, List<int[][]> solutions) GetAllSolutions(int[][] problem, List<int>[][] domains)
             {
-
-                if (isSolved == false)
-                    nodesUntilFirst++;
                 var variable = nextVariable.Next(problem);
                 if (variable.row == -1)
                 {
+                    if (solutionCount == 0)
+                    {
+                        timeTofirst = timer.Elapsed;
+                    }
                     isSolved = true;
                     solutionCount++;
                     return (true, new List<int[][]> { problem });
@@ -66,6 +69,8 @@ namespace SI_Lab_02.Sudoku.CSP
                 foreach (var value in domain)
                 {
                     nodesCount++;
+                    if (isSolved == false)
+                        nodesUntilFirst++;
 
                     int[][] newProblem = SudokuUtils.CopyArray(problem);
                     newProblem[variable.row][variable.column] = value;
@@ -95,12 +100,22 @@ namespace SI_Lab_02.Sudoku.CSP
             timer.Stop();
             TimeSpan timespan = timer.Elapsed;
 
-            Console.WriteLine("Czas działania (sek:milisek): " + String.Format("{0:00}:{1:00}", timespan.Seconds, timespan.Milliseconds / 10));
-            Console.WriteLine("Odwiedzono do 1 rozwiązania: " + nodesUntilFirst);
-            Console.WriteLine("Nawroty do 1 rozwiązania: " + reversesUntilFirst);
-            Console.WriteLine("W sumie odwiedzono: " + nodesCount);
-            Console.WriteLine("W sumie nawrotów: " + reversesCount);
-            Console.WriteLine("Znaleziono rozwiązań: " + solutionCount);
+            //Console.WriteLine("Czas działania (sek:milisek): " + String.Format("{0:00}:{1:00}", timespan.Seconds, timespan.Milliseconds));
+            //Console.WriteLine("Czas do 1 rozwiązania (sek:milisek): " + String.Format("{0:00}:{1:00}", timeTofirst.Seconds, timeTofirst.Milliseconds));
+            //Console.WriteLine("Odwiedzono do 1 rozwiązania: " + nodesUntilFirst);
+            //Console.WriteLine("Nawroty do 1 rozwiązania: " + reversesUntilFirst);
+            //Console.WriteLine("W sumie odwiedzono: " + nodesCount);
+            //Console.WriteLine("W sumie nawrotów: " + reversesCount);
+            //Console.WriteLine("Znaleziono rozwiązań: " + solutionCount);
+            //Console.WriteLine();
+
+            Console.WriteLine(String.Format("{0:0}:{1:00}:{2:000}", timespan.Minutes, timespan.Seconds, timespan.Milliseconds));
+            Console.WriteLine(nodesCount);
+            Console.WriteLine(reversesCount);
+            Console.WriteLine(String.Format("{0:0}:{1:00}:{2:000}", timeTofirst.Minutes, timeTofirst.Seconds, timeTofirst.Milliseconds));
+            Console.WriteLine(nodesUntilFirst);
+            Console.WriteLine(reversesUntilFirst);
+            Console.WriteLine(solutionCount);
             Console.WriteLine();
 
             return solutions;
